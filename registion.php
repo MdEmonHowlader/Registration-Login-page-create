@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html>
-
 <head>
     <meta charset="utf-8">
     <title>Register</title>
@@ -17,7 +16,7 @@
     <div class="page-content">
         <div class="form-v8-content">
             <div class="form-left">
-                <img src="Screenshot_3.png" alt="form" height="100%" width="100%">
+                <img src="image.jpg" alt="form" height="100%" width="100%">
             </div>
             <div class="form-right">
                 <div class="tab">
@@ -28,7 +27,42 @@
                         <button class="tablinks" onclick="openCity(event, 'sign-in')">Sign In</button>
                     </div>
                 </div>
-                <form class="form-detail" action="#" method="post">
+                <?php
+               if(isset($_POST['submit'])) {
+                $username = $_POST['full_name'];
+                $email = $_POST['email'];
+                $password = $_POST['password'];
+                $comfirm_password = $_POST['comfirm_password'];
+                $passwordHash = password_hash($password, PASSWORD_DEFAULT);
+                $errors=array();
+
+                if(empty($username) || empty($email) || empty($password) || empty($comfirm_password)){
+
+                  array_push($errors,"Please fill in all fields");
+                }
+                if(!filter_var($email, FILTER_VALIDATE_EMAIL)){
+                  array_push($errors,"Email is not valid");
+                }
+                if(strlen($password)<8){
+                  array_push($errors,"Password must be at least 8 charactes long ");
+                }
+                if($password!==$comfirm_password){
+                  array_push($errors,"Password and confirm password do not match");
+                }
+
+                if(count($errors)>0){
+                  foreach($errors as $error){
+                    echo "<div class='alert alert-denger'>$error</div>";
+                  }
+                }else{
+                  require_once "database.php";
+                }
+            
+               }
+
+
+                ?>
+                <form class="form-detail" action="registion.php" method="post">
                     <div class="tabcontent" id="sign-up">
                         <div class="form-row">
                             <label class="form-row-inner">
@@ -39,7 +73,7 @@
                         </div>
                         <div class="form-row">
                             <label class="form-row-inner">
-                                <input type="text" name="your_email" id="your_email" class="input-text" required>
+                                <input type="text" name="email" id="email" class="input-text" required>
                                 <span class="label">E-Mail</span>
                                 <span class="border"></span>
                             </label>
@@ -60,11 +94,11 @@
                             </label>
                         </div>
                         <div class="form-row-last">
-                            <input type="submit" name="register" class="register" value="Register">
+                            <input type="submit" name="submit" class="register" value="Register">
                         </div>
                     </div>
                 </form>
-                <form class="form-detail" action="#" method="post">
+                <!-- <form class="form-detail" action="#" method="post">
                     <div class="tabcontent" id="sign-in">
                         <div class="form-row">
                             <label class="form-row-inner">
@@ -99,7 +133,7 @@
                             <input type="submit" name="register" class="register" value="Sign In">
                         </div>
                     </div>
-                </form>
+                </form> -->
             </div>
         </div>
     </div>
