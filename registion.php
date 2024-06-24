@@ -113,6 +113,8 @@
                         </div>
                         <div class="form-row-last">
                             <input type="submit" name="submit" class="register" value="Register">
+                            <p class="mb-5 pb-lg-2" style="color: blanchedalmond;">I have an account? <a href="login.php"
+                            style="color: blanchedalmond;">Login here</a></p>
                         </div>
                     </div>
                 </form>
