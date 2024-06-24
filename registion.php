@@ -23,9 +23,9 @@
                     <div class="tab-inner">
                         <button class="tablinks" onclick="openCity(event, 'sign-up')" id="defaultOpen">Sign Up</button>
                     </div>
-                    <div class="tab-inner">
+                    <!-- <div class="tab-inner">
                         <button class="tablinks" onclick="openCity(event, 'sign-in')">Sign In</button>
-                    </div>
+                    </div> -->
                 </div>
                 <?php
                if(isset($_POST['submit'])) {
@@ -49,13 +49,19 @@
                 if($password!==$comfirm_password){
                   array_push($errors,"Password and confirm password do not match");
                 }
-
+                require_once "database.php";
+                $sql = "SELECT * FROM users WHERE email ='$email'";
+                $result = mysqli_query($conn, $sql);
+                $rowCount = mysqli_num_rows($result);
+                if($rowCount>0){
+                    array_push($errors, "Email Already Exists");
+                }
                 if(count($errors)>0){
                   foreach($errors as $error){
                     echo "<div class='alert alert-denger'>$error</div>";
                   }
                 }else{
-                  require_once "database.php";
+                  
 
                   $sql="INSERT INTO users(full_name, email, password) VALUES (?, ?, ?)";
                
