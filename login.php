@@ -1,64 +1,3 @@
-<!-- <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login Page</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
-  
-</head>
-<body>
-    <div class="container">
-    <section class="vh-100" style="background-image: -webkit-linear-gradient(136deg, rgb(0, 158, 253) 0%, rgb(42, 245, 152) 100%);">
-  <div class="container py-5 h-100">
-    <div class="row d-flex justify-content-center align-items-center h-100">
-      <div class="col col-xl-10">
-        <div class="card" style="border-radius: 1rem;">
-          <div class="row g-0">
-            <div class="col-md-6 col-lg-5 d-none d-md-block">
-              <img src="images.jpg"
-                alt="login form" class="img-fluid" style="border-radius: 1rem 0 0 1rem;" />
-            </div>
-            <div class="col-md-6 col-lg-7 d-flex align-items-center">
-              <div class="card-body p-4 p-lg-5 text-black">
-
-                <form>
-                  <h5 class="fw-normal mb-3 pb-3" style="letter-spacing: 1px;">Sign into your account</h5>
-
-                  <div data-mdb-input-init class="form-outline mb-4">
-                    <input type="email"  id="form2Example17" class="form-control form-control-lg"/>
-                    <label class="form-label" for="form2Example17">Email address</label>
-                  </div>
-
-                  <div data-mdb-input-init class="form-outline mb-4">
-                    <input type="password" id="form2Example27" class="form-control form-control-lg"/>
-                    <label class="form-label" for="form2Example27">Password</label>
-                  </div>
-
-                  <div class="pt-1 mb-4">
-                    <button data-mdb-button-init data-mdb-ripple-init class="btn btn-dark btn-lg btn-block" type="button">Login</button>
-                  </div>
-
-                  <a class="small text-muted" href="#">Forgot password?</a>
-                  <p class="mb-5 pb-lg-2" style="color: #393f81;">Don't have an account? <a href="registion.php"
-                      style="color: #393f81;">Register here</a></p>
-                  
-                </form>
-
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-      
-    </div>
-</body>
-</html> -->
-
-
 
 <!DOCTYPE html>
 <html>
@@ -88,8 +27,31 @@
                     </div>
                     
                 </div>
+                <?php
+                if(isset($_POST['login'])){
+                  $email=$_POST['email'];
+                  $password=$_POST['password'];
+                  require_once "database.php";
+                  $sql= "SELECT * FROM users WHERE email ='$email'";
+                  $result = mysqli_query($conn, $sql);
+                  $user = mysqli_fetch_array($result, MYSQLI_ASSOC);
+                  if($user){
+                    if(password_verify($password, $user["password"])){
+                      header("Location: index.php");
+                    die();
+
+                    }else{
+                        echo "<div class='alert alert-denger'>Password does not match</div>";
+                      
+                    }
+
+                  }else{
+                    echo "<div class='alert alert-denger'>Email does not match</div>";
+                  }
+                }
+                ?>
                
-                <form class="form-detail" action="registion.php" method="post">
+                <form class="form-detail" action="login.php" method="post">
                     <div class="tabcontent" id="sign-up">
                       
                         <div class="form-row">
@@ -107,7 +69,8 @@
                             </label>
                         </div>
                         <div class="form-row-last">
-                            <input type="submit" name="submit" class="register" value="Login">
+                        
+                        <input type="submit" name="login" class="register" value="Login">
                            
                             <p class="mb-5 pb-lg-2" style="color: blanchedalmond;">Don't have an account? <a href="registion.php"
                             style="color: blanchedalmond;">Register here</a></p>

@@ -23,9 +23,6 @@
                     <div class="tab-inner">
                         <button class="tablinks" onclick="openCity(event, 'sign-up')" id="defaultOpen">Sign Up</button>
                     </div>
-                    <!-- <div class="tab-inner">
-                        <button class="tablinks" onclick="openCity(event, 'sign-in')">Sign In</button>
-                    </div> -->
                 </div>
                 <?php
                if(isset($_POST['submit'])) {
