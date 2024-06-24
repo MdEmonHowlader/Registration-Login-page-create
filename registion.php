@@ -15,8 +15,8 @@
 <body class="form-v8">
     <div class="page-content">
         <div class="form-v8-content">
-            <div class="form-left">
-                <img src="image.jpg" alt="form" height="100%" width="100%">
+            <div class="form-left">         
+                <img src="images.jpg" alt="form" height="100%" width="100%">
             </div>
             <div class="form-right">
                 <div class="tab">
@@ -36,7 +36,7 @@
                 $passwordHash = password_hash($password, PASSWORD_DEFAULT);
                 $errors=array();
 
-                if(empty($username) || empty($email) || empty($password) || empty($comfirm_password)){
+                if(empty($username) OR empty($email) OR empty($password) OR empty($comfirm_password)){
 
                   array_push($errors,"Please fill in all fields");
                 }
@@ -56,11 +56,23 @@
                   }
                 }else{
                   require_once "database.php";
+
+                  $sql="INSERT INTO users(full_name, email, password) VALUES (?, ?, ?)";
+               
+                  $stmt = mysqli_stmt_init($conn);
+                  $prepareStmt = mysqli_stmt_prepare($stmt,$sql);
+                  if ($prepareStmt) {
+                    mysqli_stmt_bind_param($stmt, "sss", $username, $email, $passwordHash);
+                    mysqli_stmt_execute($stmt);
+                    echo "<div class='alert alert-success'> You are Registered Successfully.</div>";
+
+                  }else{
+                    die("Something went wrong");
+                  }
+                  
                 }
             
                }
-
-
                 ?>
                 <form class="form-detail" action="registion.php" method="post">
                     <div class="tabcontent" id="sign-up">
@@ -98,42 +110,7 @@
                         </div>
                     </div>
                 </form>
-                <!-- <form class="form-detail" action="#" method="post">
-                    <div class="tabcontent" id="sign-in">
-                        <div class="form-row">
-                            <label class="form-row-inner">
-                                <input type="text" name="full_name_1" id="full_name_1" class="input-text" required>
-                                <span class="label">Username</span>
-                                <span class="border"></span>
-                            </label>
-                        </div>
-                        <div class="form-row">
-                            <label class="form-row-inner">
-                                <input type="text" name="your_email_1" id="your_email_1" class="input-text" required>
-                                <span class="label">E-Mail</span>
-                                <span class="border"></span>
-                            </label>
-                        </div>
-                        <div class="form-row">
-                            <label class="form-row-inner">
-                                <input type="password" name="password_1" id="password_1" class="input-text" required>
-                                <span class="label">Password</span>
-                                <span class="border"></span>
-                            </label>
-                        </div>
-                        <div class="form-row">
-                            <label class="form-row-inner">
-                                <input type="password" name="comfirm_password_1" id="comfirm_password_1"
-                                    class="input-text" required>
-                                <span class="label">Comfirm Password</span>
-                                <span class="border"></span>
-                            </label>
-                        </div>
-                        <div class="form-row-last">
-                            <input type="submit" name="register" class="register" value="Sign In">
-                        </div>
-                    </div>
-                </form> -->
+               
             </div>
         </div>
     </div>
